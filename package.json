@@ -46,7 +46,7 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "GITHUB_USERNAME",
+      "owner": "ruwiss",
       "repo": "dubme"
     }
   }

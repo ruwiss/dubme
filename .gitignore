@@ -19,6 +19,10 @@ Thumbs.db
 *.swp
 *.swo
 
+# Documentation (except README.md)
+*.md
+!README.md
+
 # Settings (contains API keys)
 settings.json
 
