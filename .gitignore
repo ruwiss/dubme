@@ -1,0 +1,32 @@
+node_modules/
+dist/
+build/
+
+# Electron
+out/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Settings (contains API keys)
+settings.json
+
+# ytdl-core cache
+*-player-script.js
+
+merged/*
+!merged/.gitkeep
+
+dubbed/*
+!dubbed/.gitkeep

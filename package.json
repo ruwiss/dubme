@@ -1,0 +1,53 @@
+{
+  "name": "dubme",
+  "version": "1.0.0",
+  "description": "Video dubbing application with ElevenLabs",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder"
+  },
+  "keywords": [
+    "electron",
+    "video",
+    "dubbing",
+    "elevenlabs"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "dependencies": {
+    "@distube/ytdl-core": "^4.16.12",
+    "@elevenlabs/elevenlabs-js": "^2.21.0",
+    "axios": "^1.6.2",
+    "electron-updater": "^6.6.2",
+    "ffmpeg-static": "^5.2.0",
+    "ffprobe-static": "^3.1.0",
+    "fluent-ffmpeg": "^2.1.2",
+    "form-data": "^4.0.4",
+    "lucide-static": "^0.552.0",
+    "yt-dlp-wrap": "^2.3.12"
+  },
+  "build": {
+    "appId": "com.dubme.app",
+    "productName": "DubMe",
+    "win": {
+      "target": "nsis",
+      "publisherName": "DubMe"
+    },
+    "asarUnpack": [
+      "node_modules/ffmpeg-static",
+      "node_modules/ffprobe-static",
+      "node_modules/yt-dlp-wrap"
+    ],
+    "publish": {
+      "provider": "github",
+      "owner": "GITHUB_USERNAME",
+      "repo": "dubme"
+    }
+  }
+}

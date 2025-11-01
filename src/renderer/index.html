@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DubMe - Video Dublaj</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="dark">
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <h1>DubMe</h1>
+        <nav class="main-nav">
+          <button class="main-tab active" data-tab="dubbing">
+            <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/>
+              <rect x="2" y="6" width="14" height="12" rx="2"/>
+            </svg>
+            <span class="tab-label">Dublaj</span>
+          </button>
+          <button class="main-tab" data-tab="merge">
+            <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v20M2 12l10-10 10 10"/>
+            </svg>
+            <span class="tab-label">Video + Ses Birleştir</span>
+          </button>
+        </nav>
+      </div>
+      <div class="header-actions">
+        <button id="settings-btn" class="icon-btn" title="Ayarlar">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Video Dubbing Section -->
+      <section id="dubbing-section" class="feature-section active">
+        <h2>Video Dublaj</h2>
+        
+        <!-- Video Input -->
+        <div class="input-group">
+          <label>Video Seçin</label>
+          <div id="video-dropzone" class="dropzone">
+            <div class="dropzone-content">
+              <svg class="dropzone-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/>
+                <rect x="2" y="6" width="14" height="12" rx="2"/>
+              </svg>
+              <p>Video dosyasını buraya sürükleyin</p>
+              <p class="dropzone-or">veya</p>
+              <button id="select-video-btn" class="btn btn-secondary">Dosya Seç</button>
+            </div>
+          </div>
+          <div id="selected-video-info" class="video-info hidden">
+            <div class="video-info-content">
+              <img id="video-thumbnail" class="video-thumbnail hidden" src="" alt="Video thumbnail">
+              <svg id="video-icon" class="video-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"/>
+                <rect x="2" y="6" width="14" height="12" rx="2"/>
+              </svg>
+              <div class="video-details">
+                <p class="video-name"></p>
+                <p class="video-duration"></p>
+              </div>
+              <div class="video-actions">
+                <button id="download-youtube-btn" class="btn btn-secondary btn-compact hidden">İndir</button>
+                <button id="remove-video-btn" class="btn-icon-small" title="Kaldır">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                    <path d="M18 6 6 18M6 6l12 12"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="youtube-input-wrapper">
+            <input type="text" id="youtube-url" placeholder="veya YouTube video linki girin" class="input">
+            <div id="youtube-loading" class="youtube-loading hidden">
+              <div class="spinner"></div>
+              <span>Video bilgisi alınıyor...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Language Selection -->
+        <div class="input-row">
+          <div class="input-group">
+            <label>Video Dili</label>
+            <select id="source-language" class="input">
+              <option value="auto">Detect</option>
+              <option value="en">English</option>
+              <option value="af">Afrikaans</option>
+              <option value="ar">Arabic</option>
+              <option value="hy">Armenian</option>
+              <option value="az">Azerbaijani</option>
+              <option value="be">Belarusian</option>
+              <option value="bs">Bosnian</option>
+              <option value="bg">Bulgarian</option>
+              <option value="ca">Catalan</option>
+              <option value="zh">Chinese</option>
+              <option value="hr">Croatian</option>
+              <option value="cs">Czech</option>
+              <option value="da">Danish</option>
+              <option value="nl">Dutch</option>
+              <option value="et">Estonian</option>
+              <option value="fi">Finnish</option>
+              <option value="fr">French</option>
+              <option value="gl">Galician</option>
+              <option value="de">German</option>
+              <option value="el">Greek</option>
+              <option value="he">Hebrew</option>
+              <option value="hi">Hindi</option>
+              <option value="hu">Hungarian</option>
+              <option value="is">Icelandic</option>
+              <option value="id">Indonesian</option>
+              <option value="it">Italian</option>
+              <option value="ja">Japanese</option>
+              <option value="kn">Kannada</option>
+              <option value="kk">Kazakh</option>
+              <option value="ko">Korean</option>
+              <option value="lv">Latvian</option>
+              <option value="lt">Lithuanian</option>
+              <option value="mk">Macedonian</option>
+              <option value="ms">Malay</option>
+              <option value="mr">Marathi</option>
+              <option value="mi">Maori</option>
+              <option value="ne">Nepali</option>
+              <option value="no">Norwegian</option>
+              <option value="fa">Persian</option>
+              <option value="pl">Polish</option>
+              <option value="pt">Portuguese</option>
+              <option value="ro">Romanian</option>
+              <option value="ru">Russian</option>
+              <option value="sr">Serbian</option>
+              <option value="sk">Slovak</option>
+              <option value="sl">Slovenian</option>
+              <option value="es">Spanish</option>
+              <option value="sw">Swahili</option>
+              <option value="sv">Swedish</option>
+              <option value="tl">Tagalog</option>
+              <option value="ta">Tamil</option>
+              <option value="th">Thai</option>
+              <option value="tr" selected>Turkish</option>
+              <option value="uk">Ukrainian</option>
+              <option value="ur">Urdu</option>
+              <option value="vi">Vietnamese</option>
+              <option value="cy">Welsh</option>
+            </select>
+          </div>
+          
+          <div class="input-group">
+            <label>Dublaj Dili</label>
+            <select id="target-language" class="input">
+              <option value="en">English</option>
+              <option value="zh">Chinese</option>
+              <option value="es">Spanish</option>
+              <option value="hi">Hindi</option>
+              <option value="pt">Portuguese</option>
+              <option value="fr">French</option>
+              <option value="de" selected>German</option>
+              <option value="ja">Japanese</option>
+              <option value="ar">Arabic</option>
+              <option value="ru">Russian</option>
+              <option value="ko">Korean</option>
+              <option value="id">Indonesian</option>
+              <option value="it">Italian</option>
+              <option value="nl">Dutch</option>
+              <option value="tr">Turkish</option>
+              <option value="pl">Polish</option>
+              <option value="sv">Swedish</option>
+              <option value="fil">Filipino</option>
+              <option value="ms">Malay</option>
+              <option value="ro">Romanian</option>
+              <option value="uk">Ukrainian</option>
+              <option value="el">Greek</option>
+              <option value="cs">Czech</option>
+              <option value="da">Danish</option>
+              <option value="fi">Finnish</option>
+              <option value="bg">Bulgarian</option>
+              <option value="hr">Croatian</option>
+              <option value="sk">Slovak</option>
+              <option value="ta">Tamil</option>
+            </select>
+          </div>
+          
+          <div class="input-group">
+            <label>Konuşmacı Sayısı</label>
+            <input type="number" id="speaker-count" class="input" value="1" min="1" max="10">
+          </div>
+        </div>
+
+        <!-- Credit Info -->
+        <div id="credit-info" class="credit-info hidden">
+          <div class="credit-item">
+            <span>Toplam API Limiti:</span>
+            <strong id="total-credit">0</strong>
+          </div>
+          <div class="credit-item">
+            <span>Gerekli Kredi:</span>
+            <strong id="required-credit">0</strong>
+          </div>
+          <div class="credit-status" id="credit-status"></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+          <button id="start-dubbing-btn" class="btn btn-primary" disabled>Dublaj Başlat</button>
+        </div>
+        
+        <!-- Segment Required Message -->
+        <div id="segment-required-msg" class="segment-required hidden">
+          <p>🎬 Videonuz dublajlanabilmesi için her API key'e kredisi yettiği kadar parçalar halinde gönderilecektir. Kesimlerin video konuşma noktalarına denk gelmesi için segmentleri manuel olarak ayarlamanız önerilir.</p>
+          <button id="open-segment-editor-btn" class="btn btn-secondary">Segmentleri Düzenle</button>
+        </div>
+        
+        <!-- Segment Info (when segments are set) -->
+        <div id="segment-info-display" class="segment-info-display hidden">
+          <div class="segment-info-header">
+            <span>✅ Segmentler ayarlandı</span>
+            <button id="edit-segments-btn" class="btn btn-sm btn-secondary">Düzenle</button>
+          </div>
+          <div id="segment-details" class="segment-details"></div>
+        </div>
+
+        <!-- Progress Section -->
+        <div id="progress-section" class="progress-section hidden">
+          <h3>İşleniyor...</h3>
+          <div id="progress-items"></div>
+        </div>
+      </section>
+      
+      <!-- Video + Audio Merge Section -->
+      <section id="merge-section" class="feature-section hidden">
+        <h2>Video + Ses Birleştir</h2>
+        <p class="section-description">Video dosyasının orjinal sesini kaldırıp yeni ses dosyası ile birleştirin</p>
+        
+        <!-- Video Input -->
+        <div class="input-group">
+          <label>Video Dosyası</label>
+          <div class="file-selector">
+            <input type="text" id="merge-video-path" class="input" readonly placeholder="Video dosyası seçin...">
+            <button id="select-merge-video-btn" class="btn btn-secondary">Seç</button>
+          </div>
+        </div>
+        
+        <!-- Audio Input -->
+        <div class="input-group">
+          <label>Ses Dosyası (MP3)</label>
+          <div class="file-selector">
+            <input type="text" id="merge-audio-path" class="input" readonly placeholder="Ses dosyası seçin...">
+            <button id="select-merge-audio-btn" class="btn btn-secondary">Seç</button>
+          </div>
+        </div>
+        
+        <!-- Merge Button -->
+        <button id="start-merge-btn" class="btn btn-primary" disabled>Birleştir</button>
+        
+        <!-- Progress Section -->
+        <div id="merge-progress-section" class="progress-section hidden">
+          <h3>İşleniyor...</h3>
+          <div id="merge-progress-items"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Settings Page -->
+    <div id="settings-page" class="settings-page hidden">
+      <div class="settings-container">
+        <div class="settings-sidebar">
+          <div class="settings-header">
+            <h2>Ayarlar</h2>
+            <button id="close-settings-btn" class="icon-btn" title="Geri">
+              <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6"/>
+              </svg>
+            </button>
+          </div>
+          
+          <nav class="settings-nav">
+            <button class="settings-tab active" data-tab="general">
+              <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <span class="tab-label">Genel</span>
+            </button>
+            <button class="settings-tab" data-tab="api-keys">
+              <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="7.5" cy="15.5" r="5.5"/>
+                <path d="m21 2-9.6 9.6"/>
+                <path d="m15.5 7.5 3 3L22 7l-3-3"/>
+              </svg>
+              <span class="tab-label">API Anahtarları</span>
+            </button>
+            <button class="settings-tab" data-tab="appearance">
+              <svg class="tab-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+                <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+                <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+                <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+                <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+              </svg>
+              <span class="tab-label">Görünüm</span>
+            </button>
+          </nav>
+        </div>
+        
+        <div class="settings-content">
+          <!-- API Keys Tab -->
+          <div id="api-keys-tab" class="settings-tab-content">
+            <h3>API Anahtarları</h3>
+            <p class="settings-description">
+              ElevenLabs API anahtarlarınızı yönetin.
+              <a href="#" id="api-help" class="help-link-inline">
+                API key nasıl alınır?
+              </a>
+            </p>
+            
+            <div class="info-box">
+              <strong>Önemli:</strong> API key oluştururken "Restrict Key" seçeneği işaretli olmamaldır.
+            </div>
+            
+            <div class="total-credits-card">
+              <div class="credits-info">
+                <div class="credits-label">Toplam Kullanılabilir Token</div>
+                <div class="credits-value" id="total-credits-display">0</div>
+              </div>
+              <div class="credits-time">
+                <svg class="time-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span id="credits-duration">0 dakika</span>
+              </div>
+            </div>
+            
+            <!-- Sub Tabs -->
+            <div class="api-keys-subtabs">
+              <button class="api-keys-subtab active" data-subtab="active">
+                Aktif Anahtarlar
+              </button>
+              <button class="api-keys-subtab" data-subtab="archived">
+                Arşivlenmiş Anahtarlar
+              </button>
+            </div>
+            
+            <!-- Active Keys Section -->
+            <div id="active-keys-section" class="api-keys-subtab-content active">
+              <div id="api-keys-list" class="api-keys-list"></div>
+              
+              <button id="add-api-key-btn" class="btn btn-secondary">
+                + Yeni API Key Ekle
+              </button>
+
+              <div id="add-api-key-form" class="api-key-form hidden">
+                <input type="text" id="new-api-key-input" class="input" placeholder="API Key girin">
+                <div class="form-actions">
+                  <button id="save-api-key-btn" class="btn btn-primary">Kaydet</button>
+                  <button id="cancel-api-key-btn" class="btn btn-secondary">İptal</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Archived Keys Section -->
+            <div id="archived-keys-section" class="api-keys-subtab-content">
+              <div id="archived-keys-list" class="api-keys-list"></div>
+            </div>
+          </div>
+          
+          <!-- General Tab -->
+          <div id="general-tab" class="settings-tab-content active">
+            <h3>Genel Ayarlar</h3>
+            <p class="settings-description">
+              Uygulamayı tercihlerinize göre yapılandırın.
+            </p>
+            
+            <div class="settings-content-section">
+              <h4>Dublaj Kaydedilecek Klasör</h4>
+              <div class="folder-selector">
+                <input type="text" id="output-folder" class="input" readonly style="cursor: default; background-color: var(--bg-tertiary);">
+                <button id="select-output-folder-btn" class="btn btn-secondary">Klasör Seç</button>
+              </div>
+              <p class="folder-description">Dublajlanmış ses dosyalarının kaydedileceği klasör</p>
+            </div>
+            
+            <div class="settings-content-section">
+              <h4>Video İndirme Klasörü</h4>
+              <div class="folder-selector">
+                <input type="text" id="download-folder" class="input" readonly style="cursor: default; background-color: var(--bg-tertiary);">
+                <button id="select-download-folder-btn" class="btn btn-secondary">Klasör Seç</button>
+              </div>
+              <p class="folder-description">YouTube videolarının indirileceği klasör</p>
+            </div>
+            
+            <div class="settings-content-section">
+              <h4>Birleştirilmiş Videolar Klasörü</h4>
+              <div class="folder-selector">
+                <input type="text" id="merge-output-folder" class="input" readonly style="cursor: default; background-color: var(--bg-tertiary);">
+                <button id="select-merge-output-folder-btn" class="btn btn-secondary">Klasör Seç</button>
+              </div>
+              <p class="folder-description">Video+Ses birleştirme işleminin çıktılarının kaydedileceği klasör</p>
+            </div>
+          </div>
+          
+          <!-- Appearance Tab -->
+          <div id="appearance-tab" class="settings-tab-content">
+            <h3>Görünüm</h3>
+            <p class="settings-description">
+              Uygulamanın görünümünü özelleştirin.
+            </p>
+            
+            <div class="settings-content-section">
+              <h4>Tema</h4>
+              <div class="theme-selector">
+                <label class="theme-option">
+                  <input type="radio" name="theme" value="dark" checked>
+                  <div class="theme-preview theme-dark">
+                    <svg class="theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                    </svg>
+                    <span class="theme-name">Karanlık</span>
+                  </div>
+                </label>
+                <label class="theme-option">
+                  <input type="radio" name="theme" value="light">
+                  <div class="theme-preview theme-light">
+                    <svg class="theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="4"/>
+                      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                    </svg>
+                    <span class="theme-name">Açık</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Segment Editörü</title>
+  <link rel="stylesheet" href="segment-editor.css">
+</head>
+<body>
+  <div class="editor-container">
+    <!-- Header -->
+    <div class="editor-header">
+      <button class="back-btn" id="backBtn">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M10 18l-8-8 8-8 1.41 1.41L5.83 9H18v2H5.83l5.58 5.59z"/>
+        </svg>
+        Geri
+      </button>
+      <div class="header-info">
+        <h2>Segment Editörü</h2>
+        <p id="videoTitle">Video yükleniyor...</p>
+      </div>
+      <button class="finish-btn" id="finishBtn">Tamamla ve Başla</button>
+    </div>
+
+    <!-- Info Panel -->
+    <div class="info-panel">
+      <div class="info-item">
+        <label>Video Süresi:</label>
+        <span id="videoDuration">-</span>
+      </div>
+      <div class="info-item">
+        <label>Toplam Kredi:</label>
+        <span id="totalCredits">-</span>
+      </div>
+      <div class="info-item">
+        <label>Maksimum Segment:</label>
+        <span id="maxSegments">-</span>
+      </div>
+      <div class="info-item">
+        <label>Seçili Segment:</label>
+        <span id="selectedSegments">0</span>
+      </div>
+      <div class="info-item">
+        <label>Kalan Kredi:</label>
+        <span id="remainingCredits">-</span>
+      </div>
+    </div>
+
+    <!-- Timeline Container -->
+    <div class="timeline-container">
+      <canvas id="waveformCanvas"></canvas>
+      <div class="segments-overlay" id="segmentsOverlay"></div>
+      <div class="time-markers" id="timeMarkers"></div>
+    </div>
+
+    <!-- Timeline Info -->
+    <div class="timeline-info">
+      <p><strong>Gri alanlar:</strong> Konuşma olmayan sessizlik bölgeleri | <strong>Renkli alanlar:</strong> API key'lere gönderilecek segment parçaları</p>
+    </div>
+
+    <!-- Playback Controls -->
+    <div class="playback-controls">
+      <button class="play-pause-btn" id="playPauseBtn">
+        <svg class="play-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        <svg class="pause-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+          <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+        </svg>
+      </button>
+      <div class="time-display">
+        <span id="currentTime">00:00</span> / <span id="totalTime">00:00</span>
+      </div>
+    </div>
+
+    <!-- Segment Controls -->
+    <div class="segment-controls">
+      <div class="control-section">
+        <h3>Kullanım</h3>
+        <div class="info-box">
+          <p>Waveform üzerindeki dikey çizgiler segment kesim noktalarıdır. Çizgileri sürükleyerek segmentleri ayarlayabilirsiniz. Renkli alanlar API key'lerinize gönderilecek parçaları, gri alanlar ise sessizlik bölgelerini temsil eder.</p>
+        </div>
+      </div>
+
+      <div class="segments-list" id="segmentsList">
+        <div class="segments-header">
+          <h3>Segmentler</h3>
+          <button class="add-segment-btn" id="addSegmentBtn" title="Yeni segment ekle">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+            </svg>
+            Segment Ekle
+          </button>
+        </div>
+        <div id="segmentsListContent">
+          <p class="empty-message">Henüz segment eklenmedi</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="segment-editor.js"></script>
+</body>
+</html>
